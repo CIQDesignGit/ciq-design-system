@@ -40,7 +40,7 @@ jobs:
           BRANCH="${{ github.ref_name }}"
           if [ "$BRANCH" = "develop" ]; then
             npm version prerelease --preid=develop --no-git-tag-version
-            echo "npm_tag=develop" >> $GITHUB_OUTPUT
+            echo "npm_tag=latest" >> $GITHUB_OUTPUT
           elif [ "$BRANCH" = "release" ]; then
             npm version patch --no-git-tag-version
             echo "npm_tag=release" >> $GITHUB_OUTPUT
