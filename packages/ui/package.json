@@ -1,0 +1,54 @@
+{
+  "name": "@ciq-dev/ciq-design-system",
+  "version": "0.1.0",
+  "description": "CIQ Design System — shadcn/ui components with CIQ brand tokens",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles": "./dist/styles.css",
+    "./theme.css": "./src/styles/theme.css"
+  },
+  "files": [
+    "dist",
+    "src/styles/theme.css"
+  ],
+  "scripts": {
+    "build": "tsup && pnpm exec tailwindcss -i src/styles/theme.css -o dist/styles.css --minify",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18",
+    "tailwindcss": ">=4"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.562.0",
+    "radix-ui": "^1.6.7",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@ciq-dev/tsconfig": "workspace:*",
+    "@tailwindcss/cli": "^4.3.3",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "tailwindcss": "^4.3.3",
+    "tsup": "^8.5.1",
+    "typescript": "5.9.3"
+  }
+}

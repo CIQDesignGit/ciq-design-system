@@ -1,0 +1,16 @@
+{
+  "name": "ciq-design-system",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --filter @ciq-dev/ciq-design-system build",
+    "dev": "pnpm --filter @ciq-dev/ciq-design-system dev",
+    "storybook": "pnpm --filter storybook dev",
+    "build-storybook": "pnpm --filter storybook build",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "pnpm": "9.15.0",
+    "typescript": "5.9.3"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

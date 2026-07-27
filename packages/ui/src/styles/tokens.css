@@ -1,0 +1,28 @@
+/* Layer 1 — primitive raw values. Components use Layer 2 shadcn names via theme.css. */
+:root {
+  /* Brand (Purple) — primary action, RCA/Blake agent */
+  --brand-50: #f5f3ff;
+  --brand-100: #ede9fe;
+  --brand-200: #ddd6fe;
+  --brand-400: #a78bfa;
+  --brand-600: #7c3aed;
+  --brand-700: #6d28d9;
+  --brand-800: #5b21b6;
+
+  /* Success (Green) — context/content agent Jessica */
+  --success-50: #ecfdf3;
+  --success-200: #abefc6;
+  --success-600: #079455;
+  --success-700: #067647;
+  --success-800: #085d3a;
+
+  /* Structural */
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-900: #0f172a;
+
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 14px;
+  --radius-2xl: 16px;
+}
