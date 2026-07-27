@@ -1,6 +1,6 @@
 {
   "name": "@ciq-dev/ciq-design-system",
-  "version": "0.1.1-develop.4",
+  "version": "0.1.1-develop.5",
   "description": "CIQ Design System — shadcn/ui components with CIQ brand tokens",
   "type": "module",
   "private": "false",
