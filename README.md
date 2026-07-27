@@ -10,6 +10,8 @@ Public package — no auth required:
 npm install @ciq-dev/ciq-design-system
 ```
 
+Every publish from `develop`, `release`, or `main` updates the **`latest`** dist-tag (same as ciq-neo), so you never need `@develop` or another tag.
+
 ## Quick start
 
 Import the precompiled styles once in your app entry:
@@ -70,4 +72,4 @@ apps/storybook/  — Storybook docs and visual playground
 - `release` — release candidate
 - `main` — production
 
-CI auto-versions and publishes to npm on push to any of these branches.
+CI auto-versions and publishes to npm on push to any of these branches. All publishes use the `latest` dist-tag so `npm install @ciq-dev/ciq-design-system` always resolves to the most recent release.
