@@ -1,6 +1,14 @@
 {
   "name": "ciq-design-system",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CIQDesignGit/ciq-design-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CIQDesignGit/ciq-design-system/issues"
+  },
+  "homepage": "https://github.com/CIQDesignGit/ciq-design-system#readme",
   "scripts": {
     "build": "pnpm --filter @ciq-dev/ciq-design-system build",
     "dev": "pnpm --filter @ciq-dev/ciq-design-system dev",
