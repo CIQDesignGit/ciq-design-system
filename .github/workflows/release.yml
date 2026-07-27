@@ -40,10 +40,13 @@ jobs:
           BRANCH="${{ github.ref_name }}"
           if [ "$BRANCH" = "develop" ]; then
             npm version prerelease --preid=develop --no-git-tag-version
+            echo "npm_tag=develop" >> $GITHUB_OUTPUT
           elif [ "$BRANCH" = "release" ]; then
             npm version patch --no-git-tag-version
+            echo "npm_tag=release" >> $GITHUB_OUTPUT
           else
             npm version major --no-git-tag-version
+            echo "npm_tag=latest" >> $GITHUB_OUTPUT
           fi
           NEW_VERSION=$(node -p "require('./package.json').version")
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
@@ -67,6 +70,6 @@ jobs:
 
       - name: Publish to npm
         working-directory: packages/ui
-        run: npm publish --provenance --access public
+        run: npm publish --provenance --access public --tag ${{ steps.bump.outputs.npm_tag }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
