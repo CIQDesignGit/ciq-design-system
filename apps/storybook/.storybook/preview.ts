@@ -1,5 +1,4 @@
 import type { Preview } from "@storybook/react-vite";
-import "../../../packages/ui/src/styles/theme.css";
 import "./preview.css";
 
 const preview: Preview = {
@@ -12,6 +11,11 @@ const preview: Preview = {
     },
     a11y: {
       test: "todo",
+    },
+    options: {
+      storySort: {
+        order: ["Foundations", "Atoms", "Molecules", "Organisms"],
+      },
     },
     backgrounds: {
       default: "light",

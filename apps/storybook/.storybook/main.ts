@@ -7,9 +7,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const config: StorybookConfig = {
-  stories: [
-    "../../../packages/ui/src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-  ],
+  // Stories live in the Storybook app, not next to published components.
+  stories: ["../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
     "@chromatic-com/storybook",
     "@storybook/addon-a11y",

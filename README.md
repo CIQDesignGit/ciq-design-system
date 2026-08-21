@@ -59,12 +59,19 @@ pnpm typecheck    # TypeScript check
 ## Repo structure
 
 ```
-packages/ui/     — published @ciq-dev/ciq-design-system package
-  src/atoms/     — Button, Input, Badge, Avatar, Label
-  src/molecules/ — Dialog, DropdownMenu, Select
-  src/styles/    — design tokens (tokens.css + theme.css)
-apps/storybook/  — Storybook docs and visual playground
+packages/ui/                 — published @ciq-dev/ciq-design-system package
+  src/styles/                — design tokens (tokens.css + theme.css)
+  src/atoms/                 — smallest UI pieces (Button, Input, …)
+  src/molecules/             — combinations of atoms
+  src/organisms/             — larger composed sections
+apps/storybook/
+  stories/foundations/       — tokens / color stories
+  stories/atoms/             — atom playground files
+  stories/molecules/         — molecule playground files
+  stories/organisms/         — organism playground files
 ```
+
+Component source and Storybook files stay in separate folders. Stories import from `@/atoms/...` (and later `@/molecules/...`) so they always point at the live source.
 
 ## Branch workflow
 

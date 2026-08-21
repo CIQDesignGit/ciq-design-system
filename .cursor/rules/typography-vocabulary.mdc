@@ -1,0 +1,45 @@
+---
+description: Keep Storybook typography aliases; use type-* roles in components
+alwaysApply: true
+---
+
+# Typography vocabulary
+
+Follow `AGENTS.md`. Two rules, always:
+
+## 1. Never remove Storybook typography legacy aliases
+
+Do not delete, empty, or hide the **Legacy aliases** section on Foundations → Typography.
+
+Marker in code: `DO_NOT_REMOVE_LEGACY_TYPE_ALIASES`
+
+Must keep:
+
+- `legacyAliasType` in `apps/storybook/stories/foundations/typography-data.ts`
+- The "Legacy aliases" `TokenSection` in `apps/storybook/stories/foundations/typography.stories.tsx`
+
+## 2. New vocabulary in components
+
+New or edited UI must use `type-*` roles, not raw size + weight stacks.
+
+```tsx
+// ❌ BAD
+<h2 className="text-lg font-semibold" />
+<p className="text-sm" />
+<span className="text-xs font-medium" />
+
+// ✅ GOOD
+<h2 className="type-title" />
+<p className="type-body" />
+<span className="type-caption-strong" />
+```
+
+Pair with color: `className="type-body text-fg-secondary"`.
+
+| Use | Not |
+|---|---|
+| `type-heading` | `text-2xl font-semibold` |
+| `type-body` | `text-sm` |
+| `type-body-strong` | `text-sm font-medium` |
+| `type-caption` | `text-xs` |
+| `type-code` | `font-mono text-sm` |
