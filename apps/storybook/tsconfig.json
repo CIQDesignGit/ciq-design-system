@@ -1,10 +1,12 @@
 {
   "extends": "@ciq-dev/tsconfig/base.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
     "paths": {
       "@/*": ["../../packages/ui/src/*"]
     }
   },
-  "include": [".storybook/**/*.ts"]
+  "include": [".storybook/**/*.ts", "stories/**/*.ts", "stories/**/*.tsx"]
 }

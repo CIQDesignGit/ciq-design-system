@@ -1,0 +1,50 @@
+---
+description: Keep Storybook legacy color aliases; use new color vocabulary in components
+alwaysApply: true
+---
+
+# Color vocabulary
+
+Follow `AGENTS.md`. Two rules, always:
+
+## 1. Never remove Storybook legacy aliases
+
+Do not delete, empty, or hide the **Legacy aliases** section on Foundations → Colors.
+
+Marker in code: `DO_NOT_REMOVE_LEGACY_ALIASES`
+
+Must keep:
+
+- `legacyAliasColors` in `apps/storybook/stories/foundations/token-data.ts`
+- The "Legacy aliases" `TokenSection` in `apps/storybook/stories/foundations/colors.stories.tsx`
+- CSS aliases in `packages/ui/src/styles/tokens.css` and `theme.css`
+
+## 2. New vocabulary in components
+
+New or edited UI must use Tier 2 classes, not legacy shadcn names and not raw palettes.
+
+```tsx
+// ❌ BAD
+<button className="bg-primary text-primary-foreground" />
+<button className="bg-purple-600 text-white" />
+
+// ✅ GOOD
+<button className="bg-action-primary text-action-primary-fg" />
+```
+
+```tsx
+// ❌ BAD
+<p className="text-muted-foreground" />
+<p className="text-slate-500" />
+
+// ✅ GOOD
+<p className="text-fg-tertiary" />
+```
+
+| Use | Not |
+|---|---|
+| `text-fg-primary` | `text-foreground` |
+| `bg-canvas` | `bg-background` |
+| `bg-surface` | `bg-card` |
+| `bg-action-primary` | `bg-primary` |
+| `border-border-default` | `border-border` |

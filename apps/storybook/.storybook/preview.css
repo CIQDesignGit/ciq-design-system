@@ -1,4 +1,14 @@
+@import "../../../packages/ui/src/styles/theme.css";
+
+/* Scan story files so token-gallery classes (bg-success-50, shadow-2xl, …) are generated. */
+@source "../stories";
+
+/* Storybook chrome matches --canvas / --fg-primary (white + slate-900). */
 html,
-body {
+body,
+#storybook-root,
+.sb-show-main {
   font-family: "Inter", sans-serif;
+  background: var(--canvas) !important;
+  color: var(--fg-primary);
 }

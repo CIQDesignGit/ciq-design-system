@@ -5,15 +5,17 @@
   "scripts": {
     "dev": "storybook dev -p 6006",
     "build": "storybook build",
-    "typecheck": "echo \"Storybook types checked via build-storybook\""
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.2.1",
     "@ciq-dev/ciq-design-system": "workspace:*",
+    "@ciq-dev/tsconfig": "workspace:*",
     "@storybook/addon-a11y": "^10.5.4",
     "@storybook/addon-docs": "^10.5.4",
     "@storybook/react-vite": "^10.5.4",
     "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.2.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "react": "^19.2.3",
@@ -21,7 +23,6 @@
     "storybook": "^10.5.4",
     "tailwindcss": "^4.3.3",
     "typescript": "5.9.3",
-    "vite": "^7.3.0",
-    "@ciq-dev/tsconfig": "workspace:*"
+    "vite": "^7.3.0"
   }
 }
