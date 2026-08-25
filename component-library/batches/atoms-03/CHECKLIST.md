@@ -2,20 +2,20 @@
 
 ## Components
 
-- [ ] Sheet
-- [ ] Layover
-- [ ] Collapsible
-- [ ] Accordion
-- [ ] ScrollArea
-- [ ] DropdownMenu
-- [ ] Table
-- [ ] Breadcrumb
-- [ ] Loader
-- [ ] Chip
+- [x] Sheet
+- [x] Layover
+- [x] Collapsible
+- [x] Accordion
+- [x] ScrollArea
+- [x] DropdownMenu
+- [x] Table
+- [x] Breadcrumb
+- [x] Loader
+- [x] Chip
 
 ## Quality gates
 
-- [ ] Stories render
-- [ ] Typecheck passes
-- [ ] Barrel exports updated
-- [ ] No neo-canvas app coupling required
+- [x] Stories render
+- [x] Typecheck passes
+- [x] Barrel exports updated
+- [x] No neo-canvas app coupling required
