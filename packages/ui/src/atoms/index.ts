@@ -3,6 +3,7 @@ export * from "./avatar";
 export * from "./badge";
 export * from "./breadcrumb";
 export * from "./button";
+export * from "./button-variants";
 export * from "./calendar";
 export * from "./card";
 export * from "./chain-of-thought";
