@@ -2,20 +2,20 @@
 
 ## Components
 
-- [ ] Calendar
-- [ ] StarRating
-- [ ] TargetProgressBar
-- [ ] CopyButton
-- [ ] CharacterCount
-- [ ] TruncatedBadge
-- [ ] StatusCell
-- [ ] SecondaryHeader
-- [ ] TextDiff
-- [ ] MultiSelect
+- [x] Calendar
+- [x] StarRating
+- [x] TargetProgressBar
+- [x] CopyButton
+- [x] CharacterCount
+- [x] TruncatedBadge
+- [x] StatusCell
+- [x] SecondaryHeader
+- [x] TextDiff
+- [x] MultiSelect
 
 ## Quality gates
 
-- [ ] Stories render
-- [ ] Typecheck passes
-- [ ] Barrel exports updated
-- [ ] No neo-canvas app coupling required
+- [x] Stories render
+- [x] Typecheck passes
+- [x] Barrel exports updated
+- [x] No neo-canvas app coupling required

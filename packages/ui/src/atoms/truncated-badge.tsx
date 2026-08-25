@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useRef, useState } from "react";
 
 import { Badge } from "@/atoms/badge";
 import {
@@ -10,35 +10,64 @@ import {
 import { cn } from "@/lib/utils";
 
 export interface TruncatedBadgeProps {
-  items: string[];
-  BadgeClassName?: string;
-  maxWidth?: string;
-  tooltipSide?: "top" | "bottom" | "left" | "right";
-  tooltipSeparator?: string;
+  /** Array of items to display */
+  readonly items: string[];
+  /** Optional Badge className for the badge */
+  readonly BadgeClassName?: string;
+  /** Maximum width of the badge (default: 160px) */
+  readonly maxWidth?: string;
+  /** Tooltip placement (default: "bottom") */
+  readonly tooltipSide?: "top" | "bottom" | "left" | "right";
+  /** Custom separator for tooltip text (default: ", ") */
+  readonly tooltipSeparator?: string;
 }
 
-function TruncatedBadge({
+/**
+ * Renders a badge for a list of items.
+ * Shows the first item (truncated if needed) with a count suffix if there are more.
+ * Shows a tooltip on hover when text is truncated or when there are multiple items.
+ *
+ * @example
+ * // Single item (short) - no tooltip
+ * <TruncatedBadge items={["First Item"]} />
+ *
+ * @example
+ * // Single item (long, truncated) - shows tooltip with full text on hover
+ * <TruncatedBadge items={["Very Long Retailer Name That Gets Truncated"]} />
+ *
+ * @example
+ * // Multiple items - shows "First Item... &2" with tooltip listing all items
+ * <TruncatedBadge items={["First Item", "Second Item", "Third Item"]} />
+ */
+export function TruncatedBadge({
   items,
   BadgeClassName,
   maxWidth = "160px",
   tooltipSide = "bottom",
   tooltipSeparator = ", ",
 }: TruncatedBadgeProps) {
-  const firstRef = React.useRef<HTMLSpanElement>(null);
-  const [showTooltip, setShowTooltip] = React.useState(false);
+  const textRef = useRef<HTMLSpanElement>(null);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   if (!items || items.length === 0) return null;
 
-  const extraCount = items.length - 1;
+  const firstItem = items[0];
+  const remainingCount = items.length - 1;
   const tooltipText = items.join(tooltipSeparator);
 
-  const onEnter = () => {
-    if (firstRef.current) {
-      const overflow = firstRef.current.scrollWidth > firstRef.current.clientWidth;
-      setShowTooltip(overflow || extraCount > 0);
+  // Check truncation only when user hovers - most performant approach
+  const handleMouseEnter = () => {
+    if (textRef.current) {
+      const isTextTruncated = textRef.current.scrollWidth > textRef.current.clientWidth;
+      setShowTooltip(isTextTruncated || remainingCount > 0);
     } else {
-      setShowTooltip(extraCount > 0);
+      // Fallback: show tooltip if there are multiple items
+      setShowTooltip(remainingCount > 0);
     }
+  };
+
+  const handleMouseLeave = () => {
+    setShowTooltip(false);
   };
 
   const badge = (
@@ -49,15 +78,13 @@ function TruncatedBadge({
         BadgeClassName
       )}
       style={{ maxWidth }}
-      onMouseEnter={onEnter}
-      onMouseLeave={() => setShowTooltip(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <span ref={firstRef} className="truncate">
-        {items[0]}
+      <span ref={textRef} className="truncate">
+        {firstItem}
       </span>
-      {extraCount > 0 ? (
-        <span className="flex-shrink-0">&{extraCount}</span>
-      ) : null}
+      {remainingCount > 0 && <span className="flex-shrink-0">&amp;{remainingCount}</span>}
     </Badge>
   );
 
@@ -72,5 +99,3 @@ function TruncatedBadge({
     </TooltipProvider>
   );
 }
-
-export { TruncatedBadge };

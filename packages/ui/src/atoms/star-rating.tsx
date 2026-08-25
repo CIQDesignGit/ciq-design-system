@@ -1,59 +1,46 @@
-import * as React from "react";
 import { Star, StarHalf } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-export interface StarRatingProps {
-  value: number;
-  maxStars?: number;
-  showValue?: boolean;
-  className?: string;
+const MAX_STARS = 5;
+
+interface StarRatingProps {
+  readonly value: number;
+  readonly maxStars?: number;
+  readonly showValue?: boolean;
+  readonly className?: string;
 }
 
-function StarRating({
+export function StarRating({
   value,
-  maxStars = 5,
+  maxStars = MAX_STARS,
   showValue = true,
   className,
-}: StarRatingProps) {
-  const filled = Math.floor(value);
-  const remainder = value - filled;
-  const showHalf = remainder >= 0.25 && remainder < 0.75;
-  const roundUp = remainder >= 0.75;
+}: StarRatingProps): React.ReactElement {
+  const fullStars = Math.floor(value);
+  const decimal = value - fullStars;
+  const hasHalf = decimal >= 0.25 && decimal < 0.75;
+  const roundUp = decimal >= 0.75;
 
   return (
     <div className={cn("flex items-center gap-1", className)}>
-      {showValue ? (
-        <span className="text-sm text-slate-700">{value}</span>
-      ) : null}
+      {showValue && <span className="text-sm text-slate-700">{value}</span>}
       <div className="flex items-center gap-px">
-        {Array.from({ length: maxStars }, (_, index) => {
-          if (index < filled || (roundUp && index === filled)) {
-            return (
-              <Star
-                key={index}
-                className="size-3.5 fill-amber-400 text-amber-400"
-              />
-            );
+        {Array.from({ length: maxStars }, (_, i) => {
+          if (i < fullStars || (roundUp && i === fullStars)) {
+            return <Star key={i} className="size-3.5 fill-amber-400 text-amber-400" />;
           }
-          if (showHalf && index === filled) {
+          if (hasHalf && i === fullStars) {
             return (
-              <div key={index} className="relative size-3.5">
+              <div key={i} className="relative size-3.5">
                 <Star className="absolute inset-0 size-3.5 fill-none text-slate-300" />
                 <StarHalf className="absolute inset-0 size-3.5 fill-amber-400 text-amber-400" />
               </div>
             );
           }
-          return (
-            <Star
-              key={index}
-              className="size-3.5 fill-none text-slate-300"
-            />
-          );
+          return <Star key={i} className="size-3.5 fill-none text-slate-300" />;
         })}
       </div>
     </div>
   );
 }
-
-export { StarRating };

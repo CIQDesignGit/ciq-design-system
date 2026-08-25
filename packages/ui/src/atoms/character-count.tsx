@@ -1,14 +1,16 @@
-import * as React from "react";
-
 import { cn } from "@/lib/utils";
 
-export interface CharacterCountProps {
-  current: number;
-  max: number;
-  className?: string;
+interface CharacterCountProps {
+  readonly current: number;
+  readonly max: number;
+  readonly className?: string;
 }
 
-function CharacterCount({ current, max, className }: CharacterCountProps) {
+export function CharacterCount({
+  current,
+  max,
+  className,
+}: CharacterCountProps): React.ReactElement {
   return (
     <span
       data-testid="character-count"
@@ -22,5 +24,3 @@ function CharacterCount({ current, max, className }: CharacterCountProps) {
     </span>
   );
 }
-
-export { CharacterCount };

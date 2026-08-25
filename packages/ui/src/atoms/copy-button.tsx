@@ -1,5 +1,6 @@
-import * as React from "react";
+
 import { Check, Copy } from "lucide-react";
+import * as React from "react";
 
 import { Button } from "@/atoms/button";
 import {
@@ -10,21 +11,17 @@ import {
 } from "@/atoms/tooltip";
 import { cn } from "@/lib/utils";
 
-export interface CopyButtonProps
-  extends Omit<
-    React.ComponentProps<typeof Button>,
-    "onClick" | "value" | "onCopy"
-  > {
-  value: string;
-  onCopy?: (value: string) => void;
-  tooltipText?: string;
-  copiedText?: string;
-  feedbackDuration?: number;
-  absolute?: boolean;
-  groupHoverClass?: string;
+interface CopyButtonProps extends Omit<React.ComponentProps<typeof Button>, "onClick" | "onCopy"> {
+  readonly value: string;
+  readonly onCopy?: (value: string) => void;
+  readonly tooltipText?: string;
+  readonly copiedText?: string;
+  readonly feedbackDuration?: number;
+  readonly absolute?: boolean;
+  readonly groupHoverClass?: string;
 }
 
-function CopyButton({
+export function CopyButton({
   value,
   onCopy,
   tooltipText = "Copy",
@@ -36,44 +33,84 @@ function CopyButton({
   ...props
 }: CopyButtonProps) {
   const [copied, setCopied] = React.useState(false);
-  const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const copy = React.useCallback(
-    async (event: React.MouseEvent) => {
-      event.stopPropagation();
+  const handleCopy = React.useCallback(
+    async (e: React.MouseEvent) => {
+      e.stopPropagation();
       if (!value) return;
+
       try {
         await navigator.clipboard.writeText(value);
         setCopied(true);
         onCopy?.(value);
-        if (timer.current) clearTimeout(timer.current);
-        timer.current = setTimeout(() => setCopied(false), feedbackDuration);
+
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+
+        timeoutRef.current = setTimeout(() => {
+          setCopied(false);
+          timeoutRef.current = null;
+        }, feedbackDuration);
       } catch {
-        setCopied(false);
+        // Fallback for older browsers — no logger (app coupling stripped)
+        const textArea = document.createElement("textarea");
+        textArea.value = value;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand("copy");
+          document.body.removeChild(textArea);
+          setCopied(true);
+          onCopy?.(value);
+
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+          }
+
+          timeoutRef.current = setTimeout(() => {
+            setCopied(false);
+            timeoutRef.current = null;
+          }, feedbackDuration);
+        } catch {
+          document.body.removeChild(textArea);
+        }
       }
     },
     [value, onCopy, feedbackDuration]
   );
 
-  React.useEffect(
-    () => () => {
-      if (timer.current) clearTimeout(timer.current);
-    },
-    []
-  );
+  React.useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
+  const tooltipProps = copied
+    ? {
+        open: true,
+        onOpenChange: () => {
+          // Prevent closing when showing "Copied!"
+        },
+      }
+    : {};
 
   if (!value) return null;
 
   return (
     <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
+      <Tooltip {...tooltipProps}>
+        <TooltipTrigger asChild data-testid="copy-button-tooltip-trigger">
           <Button
             type="button"
             variant="ghost"
             size="icon"
-            onClick={copy}
-            aria-label={copied ? "Copied to clipboard" : "Copy to clipboard"}
+            onClick={handleCopy}
             className={cn(
               "h-8 w-8",
               absolute &&
@@ -84,6 +121,8 @@ function CopyButton({
                 ),
               className
             )}
+            aria-label={copied ? "Copied to clipboard" : "Copy to clipboard"}
+            data-testid="copy-button-copied-copied-to-clipboard-copy-to-clipboard-btn"
             {...props}
           >
             {copied ? (
@@ -100,5 +139,3 @@ function CopyButton({
     </TooltipProvider>
   );
 }
-
-export { CopyButton };
