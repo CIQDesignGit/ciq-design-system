@@ -3,10 +3,10 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export interface ToggleProps {
-  checked: boolean;
-  onCheckedChange: (checked: boolean) => void;
-  disabled?: boolean;
-  className?: string;
+  readonly checked: boolean;
+  readonly onCheckedChange: (checked: boolean) => void;
+  readonly disabled?: boolean;
+  readonly className?: string;
 }
 
 const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
@@ -22,6 +22,7 @@ const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
         onClick={() => onCheckedChange(!checked)}
         className={cn(
           "relative inline-flex h-4 w-8 items-center rounded-full px-0.5 transition-colors",
+          // Tech debt: hard-coded greens/grays (neo used CHART_COLORS). Prefer tokens later.
           checked ? "bg-green-600" : "bg-gray-300",
           disabled && "opacity-50 cursor-not-allowed",
           className
@@ -41,6 +42,7 @@ const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
     );
   }
 );
+
 Toggle.displayName = "Toggle";
 
 export { Toggle };

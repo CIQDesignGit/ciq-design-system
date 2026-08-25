@@ -3,27 +3,27 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 export interface EmptyStateProps {
-  title?: string;
-  description?: string;
-  children?: React.ReactNode;
-  className?: string;
+  readonly title?: string;
+  readonly description?: string;
+  readonly className?: string;
+  readonly children?: React.ReactNode;
 }
 
 function EmptyState({
-  title,
+  title = "Nothing here yet",
   description,
-  children,
   className,
+  children,
 }: EmptyStateProps) {
   return (
     <div className={cn("text-center py-12 text-sm", className)}>
       {title ? (
-        <p className="font-medium text-foreground">{title}</p>
+        <div className="font-medium text-foreground">{title}</div>
       ) : null}
       {description ? (
-        <p className="text-muted-foreground mt-1">{description}</p>
+        <div className="text-muted-foreground mt-1">{description}</div>
       ) : null}
-      {children}
+      {children ? <div className="mt-3">{children}</div> : null}
     </div>
   );
 }
