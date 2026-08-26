@@ -1,29 +1,40 @@
-import * as React from "react";
-import { ArrowDown } from "lucide-react";
+import { type VariantProps } from "class-variance-authority";
+import { ChevronDown } from "lucide-react";
+import { useStickToBottomContext } from "use-stick-to-bottom";
 
 import { Button } from "@/atoms/button";
+import { buttonVariants } from "@/atoms/button-variants";
 import { cn } from "@/lib/utils";
 
-export interface ScrollButtonProps
-  extends React.ComponentProps<typeof Button> {
-  visible?: boolean;
-}
+export type ScrollButtonProps = {
+  readonly className?: string;
+  readonly variant?: VariantProps<typeof buttonVariants>["variant"];
+  readonly size?: VariantProps<typeof buttonVariants>["size"];
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 function ScrollButton({
-  visible = true,
   className,
+  variant = "outline",
+  size = "sm",
   ...props
 }: ScrollButtonProps) {
-  if (!visible) return null;
+  const { isAtBottom, scrollToBottom } = useStickToBottomContext();
+
   return (
     <Button
-      size="icon"
-      variant="outline"
-      className={cn("rounded-full shadow-md", className)}
-      aria-label="Scroll to bottom"
+      variant={variant}
+      size={size}
+      className={cn(
+        "h-10 w-10 rounded-full transition-all duration-150 ease-out",
+        !isAtBottom
+          ? "translate-y-0 scale-100 opacity-100"
+          : "pointer-events-none translate-y-4 scale-95 opacity-0",
+        className
+      )}
+      onClick={() => scrollToBottom()}
       {...props}
     >
-      <ArrowDown />
+      <ChevronDown className="h-5 w-5" />
     </Button>
   );
 }

@@ -2,20 +2,20 @@
 
 ## Components
 
-- [ ] Markdown
-- [ ] Message
-- [ ] ChatContainer
-- [ ] PromptInput
-- [ ] ScrollButton
-- [ ] ResponseStream
-- [ ] ChainOfThought
-- [ ] CodeBlock
-- [ ] OrderedMultiSelect
-- [ ] FilterModal
+- [x] Markdown
+- [x] Message
+- [x] ChatContainer
+- [x] PromptInput
+- [x] ScrollButton
+- [x] ResponseStream
+- [x] ChainOfThought
+- [x] CodeBlock
+- [x] OrderedMultiSelect
+- [x] FilterModal
 
 ## Quality gates
 
-- [ ] Stories render
-- [ ] Typecheck passes
-- [ ] Barrel exports updated
-- [ ] No neo-canvas app coupling required
+- [x] Stories render
+- [x] Typecheck passes
+- [x] Barrel exports updated
+- [x] No neo-canvas app coupling required

@@ -1,44 +1,36 @@
-import * as React from "react";
+import React, { Suspense } from "react";
 
 import { cn } from "@/lib/utils";
 
-function Markdown({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+import type { MarkdownProps as MarkdownContentProps } from "./markdown-content";
+import { Skeleton } from "@/atoms/skeleton";
+
+export type MarkdownProps = MarkdownContentProps;
+
+// react-markdown + remark-gfm + rehype-raw pull in the full unified/micromark parsing
+// stack. Lazy-loading keeps that weight out of every route that renders a Markdown
+// block eagerly, deferring it to its own async chunk.
+const MarkdownContent = React.lazy(() => import("./markdown-content"));
+
+function MarkdownFallback({ className }: Readonly<{ className?: string }>) {
   return (
-    <div
-      className={cn(
-        "prose prose-sm max-w-none text-foreground [&_p]:leading-7",
-        className
-      )}
-      {...props}
-    >
-      {children}
+    <div className={cn("flex flex-col gap-1.5", className)}>
+      <Skeleton className="h-3.5 w-full" />
+      <Skeleton className="h-3.5 w-4/5" />
     </div>
   );
 }
 
-function MarkdownContent(props: React.ComponentProps<typeof Markdown>) {
-  return <Markdown {...props} />;
-}
-
-function SectionMarkdown({
-  title,
-  children,
+export const Markdown = React.memo(function Markdown({
   className,
-}: {
-  title?: string;
-  children?: React.ReactNode;
-  className?: string;
-}) {
+  children,
+  ...props
+}: MarkdownProps) {
   return (
-    <section className={cn("space-y-2", className)}>
-      {title ? <h3 className="text-sm font-semibold">{title}</h3> : null}
-      <Markdown>{children}</Markdown>
-    </section>
+    <Suspense fallback={<MarkdownFallback className={className} />}>
+      <MarkdownContent className={className} {...props}>
+        {children}
+      </MarkdownContent>
+    </Suspense>
   );
-}
-
-export { Markdown, MarkdownContent, SectionMarkdown };
+});

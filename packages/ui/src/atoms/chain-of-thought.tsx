@@ -1,39 +1,82 @@
-import * as React from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Circle } from "lucide-react";
+import React from "react";
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/atoms/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/atoms/collapsible";
 import { cn } from "@/lib/utils";
 
-function ChainOfThought({
-  className,
-  ...props
-}: React.ComponentProps<typeof Collapsible>) {
-  return <Collapsible className={cn("group", className)} {...props} />;
-}
+export type ChainOfThoughtItemProps = React.ComponentProps<"div">;
 
-function ChainOfThoughtTrigger({
-  className,
+export const ChainOfThoughtItem = ({ children, className, ...props }: ChainOfThoughtItemProps) => (
+  <div className={cn("text-muted-foreground text-sm", className)} {...props}>
+    {children}
+  </div>
+);
+
+export type ChainOfThoughtTriggerProps = React.ComponentProps<typeof CollapsibleTrigger> & {
+  readonly leftIcon?: React.ReactNode;
+  readonly swapIconOnHover?: boolean;
+  readonly disabled?: boolean;
+  /** Show expand/collapse chevron icon on the right */
+  readonly showExpandIcon?: boolean;
+};
+
+export const ChainOfThoughtTrigger = ({
   children,
+  className,
+  leftIcon,
+  swapIconOnHover = true,
+  disabled = false,
+  showExpandIcon = false,
   ...props
-}: React.ComponentProps<typeof CollapsibleTrigger>) {
-  return (
-    <CollapsibleTrigger
-      className={cn(
-        "flex items-center gap-2 text-sm text-muted-foreground",
-        className
+}: ChainOfThoughtTriggerProps) => (
+  <CollapsibleTrigger
+    disabled={disabled}
+    className={cn(
+      "group text-muted-foreground flex items-center justify-between gap-1 text-left text-sm transition-colors w-full",
+      className,
+      !disabled && "hover:text-foreground cursor-pointer"
+    )}
+    data-testid="chain-of-thought-collapsible-trigger"
+    {...props}
+  >
+    <div className="flex items-center gap-2 flex-1 min-w-0">
+      {leftIcon ? (
+        <span className="relative inline-flex size-4 items-center justify-center shrink-0">
+          <span className={cn("transition-opacity", swapIconOnHover && "group-hover:opacity-0")}>
+            {leftIcon}
+          </span>
+          {swapIconOnHover && (
+            <ChevronDown className="absolute size-4 opacity-0 transition-opacity group-hover:opacity-100 group-data-[state=open]:rotate-180" />
+          )}
+        </span>
+      ) : (
+        <span className="relative inline-flex size-4 items-center justify-center shrink-0">
+          <Circle className="size-2 fill-current" />
+        </span>
       )}
-      {...props}
-    >
-      {children}
+      <span className="text-xs text-tertiary-text flex-1 min-w-0">{children}</span>
+    </div>
+    {/* Right chevron for expand/collapse state */}
+    {showExpandIcon && !disabled && (
+      <ChevronDown className="size-4 shrink-0 text-slate-400 transition-transform group-data-[state=open]:rotate-180" />
+    )}
+    {!leftIcon && !showExpandIcon && (
       <ChevronDown className="size-4 transition-transform group-data-[state=open]:rotate-180" />
-    </CollapsibleTrigger>
-  );
-}
+    )}
+  </CollapsibleTrigger>
+);
 
-function ChainOfThoughtContent({
+export type ChainOfThoughtContentProps = React.ComponentProps<typeof CollapsibleContent>;
+
+export const ChainOfThoughtContent = ({
+  children,
   className,
   ...props
-}: React.ComponentProps<typeof CollapsibleContent>) {
+}: ChainOfThoughtContentProps) => {
   return (
     <CollapsibleContent
       className={cn(
@@ -41,33 +84,56 @@ function ChainOfThoughtContent({
         className
       )}
       {...props}
-    />
+    >
+      <div className="grid grid-cols-[min-content_minmax(0,1fr)] gap-x-4">
+        <div className="bg-primary/20 ml-1.75 h-full w-px group-data-[last=true]:hidden" />
+        <div className="ml-1.75 h-full w-px bg-transparent group-data-[last=false]:hidden" />
+        <div className="mt-2 space-y-2">{children}</div>
+      </div>
+    </CollapsibleContent>
   );
-}
+};
 
-function ChainOfThoughtStep({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export type ChainOfThoughtProps = {
+  readonly children: React.ReactNode;
+  readonly className?: string;
+};
+
+export function ChainOfThought({ children, className }: ChainOfThoughtProps) {
+  const childrenArray = React.Children.toArray(children);
+
   return (
-    <div
-      className={cn(
-        "grid grid-cols-[min-content_minmax(0,1fr)] gap-x-4 py-1 text-sm",
-        className
-      )}
-      {...props}
-    />
+    <div className={cn("space-y-0", className)}>
+      {childrenArray.map((child, index) => (
+        <React.Fragment key={index}>
+          {React.isValidElement(child) &&
+            React.cloneElement(child as React.ReactElement<ChainOfThoughtStepProps>, {
+              isLast: index === childrenArray.length - 1,
+            })}
+        </React.Fragment>
+      ))}
+    </div>
   );
 }
 
-function ChainOfThoughtItem(props: React.ComponentProps<"div">) {
-  return <div {...props} />;
-}
+export type ChainOfThoughtStepProps = {
+  readonly children: React.ReactNode;
+  readonly className?: string;
+  readonly isLast?: boolean;
+};
 
-export {
-  ChainOfThought,
-  ChainOfThoughtTrigger,
-  ChainOfThoughtContent,
-  ChainOfThoughtStep,
-  ChainOfThoughtItem,
+export const ChainOfThoughtStep = ({
+  children,
+  className,
+  isLast = false,
+  ...props
+}: ChainOfThoughtStepProps & React.ComponentProps<typeof Collapsible>) => {
+  return (
+    <Collapsible className={cn("group", className)} data-last={isLast} {...props}>
+      {children}
+      <div className="flex justify-start group-data-[last=true]:hidden">
+        <div className="bg-primary/20 ml-1.75 h-4 w-px" />
+      </div>
+    </Collapsible>
+  );
 };

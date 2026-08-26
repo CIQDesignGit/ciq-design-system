@@ -19,8 +19,8 @@ Port chat and AI presentation building blocks. Tag all as `promote-to-molecule-l
 
 ## Shared prerequisites
 
-- [ ] atoms-01–04 complete
-- [ ] Heavy peers: markdown stack, shiki, use-stick-to-bottom — confirm versions against neo-canvas `package.json`
+- [x] atoms-01–04 complete
+- [x] Heavy peers: markdown stack, shiki, use-stick-to-bottom — confirm versions against neo-canvas `package.json`
 
 ## Specs
 
@@ -28,5 +28,12 @@ See [components/](./components/).
 
 ## Definition of done
 
-- [ ] All 10 + stories + [CHECKLIST.md](./CHECKLIST.md)
-- [ ] Markdown security posture documented (sanitize allowlist)
+- [x] All 10 + stories + [CHECKLIST.md](./CHECKLIST.md)
+- [x] Markdown security posture documented (sanitize allowlist)
+
+## Markdown security (documented)
+
+| Surface | Approach |
+|---------|----------|
+| `Markdown` / `markdown-content` | Same as neo-canvas: `remark-gfm` + `rehype-raw`. **No** HTML allowlist sanitizer — callers must treat source as trusted or sanitize upstream. |
+| `CodeBlock` | `DOMPurify.sanitize(highlightedHtml)` with **default** DOMPurify allowlist after Shiki highlight. Language ids restricted via `ALLOWED_LANGUAGES`. |
