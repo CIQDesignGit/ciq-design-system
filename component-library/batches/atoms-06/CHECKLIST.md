@@ -2,14 +2,14 @@
 
 ## Components
 
-- [ ] Sidebar
-- [ ] ThemeSwitcher
-- [ ] Toaster
-- [ ] SectionMarkdown
+- [x] Sidebar
+- [x] ThemeSwitcher
+- [x] Toaster
+- [x] SectionMarkdown
 
 ## Quality gates
 
-- [ ] Stories render
-- [ ] Typecheck passes
-- [ ] Barrel exports updated
-- [ ] No neo-canvas app coupling required
+- [x] Stories render
+- [x] Typecheck passes
+- [x] Barrel exports updated
+- [x] No neo-canvas app coupling required

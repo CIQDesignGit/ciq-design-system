@@ -13,8 +13,8 @@ Finish remaining atom-folder components. Several are app-coupled — adapt with 
 
 ## Shared prerequisites
 
-- [ ] atoms-01–05 complete
-- [ ] Sheet / Button / Markdown already in library
+- [x] atoms-01–05 complete
+- [x] Sheet / Button / Markdown already in library
 
 ## Specs
 
@@ -27,5 +27,5 @@ See [components/](./components/).
 
 ## Definition of done
 
-- [ ] All 4 + stories + [CHECKLIST.md](./CHECKLIST.md)
-- [ ] Atom folder migration packs complete — proceed to [molecules](../../molecules/README.md)
+- [x] All 4 + stories + [CHECKLIST.md](./CHECKLIST.md)
+- [x] Atom folder migration packs complete — proceed to [molecules](../../molecules/README.md)
