@@ -10,4 +10,5 @@ export {
 export * from "./formatters";
 export * from "./filters";
 export * from "./reports";
+export * from "./base-data-table";
 

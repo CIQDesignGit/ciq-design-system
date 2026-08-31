@@ -1,10 +1,10 @@
 # Batch molecules-05 checklist
 
-- [ ] Types
-- [ ] Cells + registry
-- [ ] BaseDataTable core
-- [ ] PaginationV2
-- [ ] Data hooks via adapter
-- [ ] ExpandableTable (if needed)
-- [ ] Specs under `components/` when activating
-- [ ] Stories + typecheck + barrel
+- [x] Types
+- [x] Cells + registry
+- [x] BaseDataTable core
+- [x] PaginationV2
+- [x] Data hooks via adapter
+- [x] ExpandableTable (if needed)
+- [x] Specs under `components/` when activating
+- [x] Stories + typecheck + barrel

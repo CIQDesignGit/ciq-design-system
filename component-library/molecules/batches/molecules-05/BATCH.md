@@ -6,8 +6,8 @@ Schema-driven table system for agents Action Log (and future hosts). Largest mol
 
 ## Prerequisites
 
-- [ ] molecules-04 done (FilterBar may be composed)
-- [ ] Atoms: Table, Checkbox, Button, Skeleton, Tooltip, …
+- [x] molecules-04 done (FilterBar may be composed)
+- [x] Atoms: Table, Checkbox, Button, Skeleton, Tooltip, …
 
 ## Implement order (suggested sub-PRs)
 
@@ -29,7 +29,7 @@ Schema-driven table system for agents Action Log (and future hosts). Largest mol
 
 ## Definition of done
 
-- [ ] Action Log can render with mock rows in Storybook
-- [ ] Formatters reuse molecules-03
-- [ ] [CHECKLIST.md](./CHECKLIST.md)
-- [ ] Foundational molecules stream complete → chat/alerts/agents feature kits next (separate packs)
+- [x] Action Log can render with mock rows in Storybook
+- [x] Formatters reuse molecules-03
+- [x] [CHECKLIST.md](./CHECKLIST.md)
+- [x] Foundational molecules stream complete → chat/alerts/agents feature kits next (separate packs)
