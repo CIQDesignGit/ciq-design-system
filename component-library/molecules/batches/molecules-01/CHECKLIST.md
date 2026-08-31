@@ -1,8 +1,8 @@
 # Batch molecules-01 checklist
 
-- [ ] FeedbackForm
-- [ ] FeedbackPopover
-- [ ] FeedbackPopoverGroup
-- [ ] ConfirmationModal
-- [ ] Full component specs filled under `components/` (when activating this batch)
-- [ ] Stories + typecheck + barrel exports
+- [x] FeedbackForm
+- [x] FeedbackPopover
+- [x] FeedbackPopoverGroup
+- [x] ConfirmationModal
+- [x] Full component specs filled under `components/` (when activating this batch)
+- [x] Stories + typecheck + barrel exports

@@ -1,7 +1,7 @@
 # Batch molecules-03 checklist
 
-- [ ] Number/currency/percent formatters (locale-injectable)
-- [ ] VegaChart
-- [ ] LazyVegaChart
-- [ ] Specs under `components/` when activating
-- [ ] Stories + typecheck + barrel
+- [x] Number/currency/percent formatters (locale-injectable)
+- [x] VegaChart
+- [x] LazyVegaChart
+- [x] Specs under `components/` when activating
+- [x] Stories + typecheck + barrel

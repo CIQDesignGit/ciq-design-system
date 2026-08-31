@@ -6,8 +6,8 @@ Ship feedback UI used by conversations and alerts, plus the shared confirmation 
 
 ## Prerequisites
 
-- [ ] Atom batches 01–06 implemented in the library
-- [ ] Batch 01 atoms available: Button, Textarea, Label, Checkbox, etc.
+- [x] Atom batches 01–06 implemented in the library
+- [x] Batch 01 atoms available: Button, Textarea, Label, Checkbox, etc.
 
 ## Implement order
 
@@ -24,7 +24,7 @@ Ship feedback UI used by conversations and alerts, plus the shared confirmation 
 
 ## Specs
 
-Write per-component markdown under `components/` when this batch is activated (use [`_template/COMPONENT.md`](../../_template/COMPONENT.md)). Until then this BATCH.md is the freeze contract.
+See [components/](./components/).
 
 ### Source map
 
@@ -37,7 +37,7 @@ Write per-component markdown under `components/` when this batch is activated (u
 
 ## Definition of done
 
-- [ ] Exports match neo-canvas `feedback/index.ts` + confirmation modal API
-- [ ] No axios / feedbackService imports in library
-- [ ] Stories render
-- [ ] [CHECKLIST.md](./CHECKLIST.md) complete
+- [x] Exports match neo-canvas `feedback/index.ts` + confirmation modal API
+- [x] No axios / feedbackService imports in library
+- [x] Stories render
+- [x] [CHECKLIST.md](./CHECKLIST.md) complete

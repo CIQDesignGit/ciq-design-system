@@ -6,8 +6,8 @@ Date range picking and searchable multi-select used by agents Action Log / filte
 
 ## Prerequisites
 
-- [ ] molecules-01 done
-- [ ] Atoms: Calendar, Button, Popover, Checkbox, Badge, Input
+- [x] molecules-01 done
+- [x] Atoms: Calendar, Button, Popover, Checkbox, Badge, Input
 
 ## Implement order
 
@@ -28,5 +28,5 @@ Date range picking and searchable multi-select used by agents Action Log / filte
 
 ## Definition of done
 
-- [ ] Public API matches date-range-picker `index.ts`
-- [ ] Stories + [CHECKLIST.md](./CHECKLIST.md)
+- [x] Public API matches date-range-picker `index.ts`
+- [x] Stories + [CHECKLIST.md](./CHECKLIST.md)

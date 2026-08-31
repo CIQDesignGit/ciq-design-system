@@ -6,8 +6,8 @@ Unlock conversation charts and alert number formatting without the full BaseData
 
 ## Prerequisites
 
-- [ ] molecules-02 done
-- [ ] Vega peer deps aligned with neo-canvas (`vega`, `vega-embed`)
+- [x] molecules-02 done
+- [x] Vega peer deps aligned with neo-canvas (`vega`, `vega-embed`)
 
 ## Implement order
 
@@ -32,6 +32,6 @@ Unlock conversation charts and alert number formatting without the full BaseData
 
 ## Definition of done
 
-- [ ] Alerts can format currency/numbers via library
-- [ ] Conversations can lazy-load VegaChart
-- [ ] [CHECKLIST.md](./CHECKLIST.md)
+- [x] Alerts can format currency/numbers via library
+- [x] Conversations can lazy-load VegaChart
+- [x] [CHECKLIST.md](./CHECKLIST.md)
