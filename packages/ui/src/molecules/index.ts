@@ -8,5 +8,6 @@ export {
   type DropdownMultiSelectProps,
 } from "./dropdown-multi-select";
 export * from "./formatters";
+export * from "./filters";
 export * from "./reports";
 

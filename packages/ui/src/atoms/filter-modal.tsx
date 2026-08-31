@@ -20,7 +20,7 @@ export interface FilterColumn {
   field: string;
 }
 
-export interface FilterValue {
+export interface FilterModalValue {
   id: string;
   label: string;
   value: string;
@@ -39,8 +39,8 @@ export interface FilterModalProps {
   readonly onClose: () => void;
   readonly onApply: (selectedColumn: FilterColumn | null, selectedValues: string[]) => void;
   readonly columns: FilterColumn[];
-  readonly values?: FilterValue[];
-  readonly getValuesForColumn?: (columnId: string) => FilterValue[];
+  readonly values?: FilterModalValue[];
+  readonly getValuesForColumn?: (columnId: string) => FilterModalValue[];
   readonly selectedColumnId?: string | null;
   readonly selectedValueIds?: string[];
   readonly title?: string;

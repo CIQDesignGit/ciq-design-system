@@ -6,8 +6,8 @@ Port FilterBar UI with an injectable data adapter (agents workspace depends on t
 
 ## Prerequisites
 
-- [ ] molecules-03 done
-- [ ] Atoms: Popover, Checkbox, Input, Button, Skeleton, Badge
+- [x] molecules-03 done
+- [x] Atoms: Popover, Checkbox, Input, Button, Skeleton, Badge
 
 ## Implement order
 
@@ -20,22 +20,16 @@ Port FilterBar UI with an injectable data adapter (agents workspace depends on t
 
 ```ts
 export type FilterDataAdapter = {
-  // Mirror methods FilterBar/useFilterData actually need — fill when writing full specs
-  loadDimensions: () => Promise<unknown>;
-  loadValues: (dimensionId: string, query: string) => Promise<unknown>;
+  loadDimensions?: () => Promise<FilterDimension[]>;
+  loadValues?: (dimensionId: string) => Promise<FilterDimensionValue[]>;
+  fetchRaw?: (payload: FilterFetchPayload) => Promise<unknown>;
 };
 ```
 
-## Source map
-
-| Item | Path |
-|------|------|
-| FilterBar | `src/components/molecules/filters/filter-bar.tsx` |
-| useFilterData | `src/components/molecules/filters/useFilterData.ts` (host or adapter wrapper) |
-| filterConfigUtils | `src/components/molecules/filters/filterConfigUtils.ts` |
+See [components/filter-bar.md](./components/filter-bar.md).
 
 ## Definition of done
 
-- [ ] FilterBar works in Storybook with a mock adapter
-- [ ] No `dataFetcherService` import inside library package
-- [ ] [CHECKLIST.md](./CHECKLIST.md)
+- [x] FilterBar works in Storybook with a mock adapter
+- [x] No `dataFetcherService` import inside library package
+- [x] [CHECKLIST.md](./CHECKLIST.md)

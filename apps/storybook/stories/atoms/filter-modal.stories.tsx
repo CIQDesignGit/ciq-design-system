@@ -7,7 +7,7 @@ import {
   type FilterColumn,
   FilterModal,
   type FilterModalProps,
-  type FilterValue,
+  type FilterModalValue,
 } from "@/atoms/filter-modal";
 
 // ============================================
@@ -21,7 +21,7 @@ const COLUMNS: FilterColumn[] = [
   { id: "fulfillment", label: "Fulfillment type", field: "fulfillment" },
 ];
 
-const VALUES_BY_COLUMN: Record<string, FilterValue[]> = {
+const VALUES_BY_COLUMN: Record<string, FilterModalValue[]> = {
   category: [
     { id: "electronics", label: "Electronics", value: "electronics" },
     { id: "home", label: "Home & Garden", value: "home" },
@@ -39,7 +39,7 @@ const VALUES_BY_COLUMN: Record<string, FilterValue[]> = {
   ],
 };
 
-function getValuesForColumn(columnId: string): FilterValue[] {
+function getValuesForColumn(columnId: string): FilterModalValue[] {
   return VALUES_BY_COLUMN[columnId] ?? [];
 }
 
