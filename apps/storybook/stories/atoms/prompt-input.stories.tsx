@@ -1,24 +1,68 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ArrowUp, Paperclip, Square } from "lucide-react";
-import { useState } from "react";
+import {
+  ArrowUp,
+  BookOpen,
+  CornerDownRight,
+  Globe,
+  Paperclip,
+  Plus,
+  Square,
+} from "lucide-react";
+import { useState, type ReactNode } from "react";
 import { fn } from "storybook/test";
 
 import { Button } from "@/atoms/button";
-
-import { PromptInput, PromptInputAction, PromptInputActions, PromptInputTextarea } from "@/atoms/prompt-input";
+import {
+  PromptInput,
+  PromptInputAction,
+  PromptInputActions,
+  PromptInputHeader,
+  PromptInputLeading,
+  PromptInputSubmit,
+  PromptInputTextarea,
+  PromptInputTools,
+  PromptInputTrailing,
+} from "@/atoms/prompt-input";
 
 // ============================================
-// Mock Data
+// Shared bits
 // ============================================
 
-const PREFILLED_QUESTION =
-  "Why did ACOS increase for the Amazon Wireless Earbuds campaign this week?";
+const toolChipClass =
+  "inline-flex h-8 items-center gap-1.5 rounded-full border border-border-default bg-surface px-3 type-caption-strong text-fg-secondary hover:bg-surface-muted";
 
-// ============================================
-// Copilot Prompt Demo
-// ============================================
+function ToolChip({
+  icon,
+  label,
+}: {
+  readonly icon: ReactNode;
+  readonly label: string;
+}) {
+  return (
+    <button type="button" className={toolChipClass}>
+      {icon}
+      {label}
+    </button>
+  );
+}
 
-type PromptInputDemoArgs = {
+function DefaultTools() {
+  return (
+    <PromptInputTools>
+      <PromptInputAction tooltip="Attach a file">
+        <ToolChip icon={<Paperclip className="size-3.5" />} label="Attach" />
+      </PromptInputAction>
+      <PromptInputAction tooltip="Search the web">
+        <ToolChip icon={<Globe className="size-3.5" />} label="Search" />
+      </PromptInputAction>
+      <PromptInputAction tooltip="Study mode">
+        <ToolChip icon={<BookOpen className="size-3.5" />} label="Study" />
+      </PromptInputAction>
+    </PromptInputTools>
+  );
+}
+
+type DemoArgs = {
   readonly isLoading?: boolean;
   readonly value?: string;
   readonly maxHeight?: number | string;
@@ -27,54 +71,105 @@ type PromptInputDemoArgs = {
   readonly onSubmit?: () => void;
 };
 
-/**
- * Composes the real PromptInput sub-components into a CommerceIQ Copilot-style
- * chat input: an auto-resizing textarea plus an attach and send/stop action.
- */
-const CopilotPromptDemo = (args: PromptInputDemoArgs) => {
+function useDemoState(args: DemoArgs) {
   const [value, setValue] = useState(args.value ?? "");
+  return {
+    inputProps: {
+      isLoading: args.isLoading,
+      maxHeight: args.maxHeight,
+      disabled: args.disabled,
+      value,
+      onValueChange: (next: string) => {
+        setValue(next);
+        args.onValueChange?.(next);
+      },
+      onSubmit: () => {
+        args.onSubmit?.();
+        setValue("");
+      },
+    },
+  };
+}
 
+function CompactDemo({
+  args,
+  placeholder = "Ask anything",
+}: {
+  readonly args: DemoArgs;
+  readonly placeholder?: string;
+}) {
+  const { inputProps } = useDemoState(args);
   return (
-    <div className="w-[480px]">
-      <PromptInput
-        isLoading={args.isLoading}
-        maxHeight={args.maxHeight}
-        disabled={args.disabled}
-        value={value}
-        onValueChange={(newValue) => {
-          setValue(newValue);
-          args.onValueChange?.(newValue);
-        }}
-        onSubmit={() => {
-          args.onSubmit?.();
-          setValue("");
-        }}
-      >
-        <PromptInputTextarea placeholder="Ask Copilot about ACOS, ROAS, or budget pacing..." />
-        <PromptInputActions className="justify-end pt-2">
-          <PromptInputAction tooltip="Attach a report">
-            <Button variant="ghost" size="icon" className="h-8 w-8" type="button">
-              <Paperclip className="h-4 w-4" />
+    <div className="w-[560px]">
+      <PromptInput {...inputProps} variant="compact">
+        <PromptInputLeading>
+          <PromptInputAction tooltip="Add">
+            <Button variant="ghost" size="icon" className="size-8" type="button">
+              <Plus className="size-4" />
             </Button>
           </PromptInputAction>
-          <PromptInputAction tooltip={args.isLoading ? "Stop generating" : "Send message"}>
-            <Button
-              size="icon"
-              className="h-8 w-8 rounded-full"
-              type="button"
-              disabled={!args.isLoading && value.trim().length === 0}
-            >
-              {args.isLoading ? <Square className="h-4 w-4" /> : <ArrowUp className="h-4 w-4" />}
-            </Button>
-          </PromptInputAction>
+        </PromptInputLeading>
+        <PromptInputTextarea placeholder={placeholder} />
+        <PromptInputTrailing>
+          <PromptInputSubmit aria-label={args.isLoading ? "Stop generating" : "Send"}>
+            {args.isLoading ? (
+              <Square className="size-3.5 fill-current" />
+            ) : (
+              <ArrowUp />
+            )}
+          </PromptInputSubmit>
+        </PromptInputTrailing>
+      </PromptInput>
+    </div>
+  );
+}
+
+function StackedToolsDemo({
+  args,
+  header,
+}: {
+  readonly args: DemoArgs;
+  readonly header?: ReactNode;
+}) {
+  const { inputProps } = useDemoState(args);
+  return (
+    <div className="w-[520px]">
+      <PromptInput {...inputProps} variant="stacked">
+        {header}
+        <PromptInputTextarea placeholder="Ask anything" />
+        <PromptInputActions className="justify-between pt-1">
+          <DefaultTools />
+          <PromptInputSubmit variant="pill" label="Send" aria-label="Send">
+            <ArrowUp />
+          </PromptInputSubmit>
         </PromptInputActions>
       </PromptInput>
     </div>
   );
-};
+}
+
+function ContextBannerDemo({ args }: { readonly args: DemoArgs }) {
+  const [context, setContext] = useState<string | null>("Text");
+  return (
+    <StackedToolsDemo
+      args={args}
+      header={
+        context ? (
+          <PromptInputHeader
+            variant="banner"
+            icon={<CornerDownRight />}
+            onDismiss={() => setContext(null)}
+          >
+            {context}
+          </PromptInputHeader>
+        ) : null
+      }
+    />
+  );
+}
 
 // ============================================
-// Story Configuration
+// Story config
 // ============================================
 
 const meta: Meta<typeof PromptInput> = {
@@ -85,53 +180,36 @@ const meta: Meta<typeof PromptInput> = {
     docs: {
       description: {
         component: `
-A compound chat input used for CommerceIQ Copilot-style prompts. \`PromptInput\` is the
-container that manages value state, auto-resize height, and Enter-to-submit behavior.
-Compose it with:
-- **PromptInputTextarea**: auto-resizing textarea that submits on Enter (Shift+Enter for a newline)
-- **PromptInputActions**: a flex row for toolbar buttons
-- **PromptInputAction**: a tooltip-wrapped action button (e.g. attach, send, stop)
+Compound chat prompt input.
+
+**Layout variants** on \`PromptInput\`:
+- \`compact\` — single pill row (leading + textarea + trailing / submit)
+- \`stacked\` — taller card (optional header, textarea, tools + submit)
+
+**Header variants** on \`PromptInputHeader\`:
+- \`banner\` — muted full-width context strip with dismiss
+- \`chip\` — bordered context chip
+
+\`PromptInputSubmit\` is the send control (\`icon\` round or \`pill\` labeled).
+Enter submits; Shift+Enter inserts a newline.
         `,
       },
     },
   },
   tags: ["autodocs"],
   argTypes: {
-    isLoading: {
-      control: "boolean",
-      description:
-        "Shows a loading/streaming state. While true, pressing Enter no longer submits.",
+    variant: {
+      control: "select",
+      options: ["compact", "stacked"],
     },
-    value: {
-      control: "text",
-      description:
-        "Controlled textarea value. When provided alongside onValueChange, PromptInput is fully controlled.",
-    },
-    onValueChange: {
-      control: false, // callback - fires with the new textarea value on every keystroke
-      description: "Called with the new value whenever the textarea content changes.",
-    },
-    maxHeight: {
-      control: "number",
-      description:
-        "Maximum height (px, or any CSS length string) the textarea grows to before scrolling.",
-    },
-    onSubmit: {
-      control: false, // callback - fires on Enter (without Shift)
-      description: "Called when the user presses Enter without Shift to submit the prompt.",
-    },
-    disabled: {
-      control: "boolean",
-      description: "Disables the input, blocking focus, typing, and submission.",
-    },
-    className: {
-      control: false, // Tailwind class override for the outer container, not meaningful as a live control
-      description: "Additional class names applied to the outer container.",
-    },
-    children: {
-      control: false, // composed from PromptInputTextarea / PromptInputActions / PromptInputAction
-      description: "The PromptInput sub-components that make up the input (textarea, actions).",
-    },
+    isLoading: { control: "boolean" },
+    value: { control: "text" },
+    onValueChange: { control: false },
+    maxHeight: { control: "number" },
+    onSubmit: { control: false },
+    disabled: { control: "boolean" },
+    className: { control: false },
+    children: { control: false },
   },
   args: {
     isLoading: false,
@@ -147,47 +225,81 @@ export default meta;
 type Story = StoryObj<typeof PromptInput>;
 
 // ============================================
-// Stories
+// Variants from design
 // ============================================
 
-/**
- * Default Copilot prompt input. Type a question and press Enter to submit.
- */
-export const Default: Story = {
-  render: (args) => <CopilotPromptDemo {...args} />,
+/** Slim single-line bar: + | Ask anything | mic + send */
+export const Compact: Story = {
+  render: (args) => <CompactDemo args={args} />,
 };
 
-/** Pre-filled with a question, ready to submit. */
+/** Stacked card with Attach / Search / Study tools + send pill */
+export const WithTools: Story = {
+  name: "With tools",
+  render: (args) => <StackedToolsDemo args={args} />,
+};
+
+/** Context banner (reply-to) above the prompt */
+export const WithContextBanner: Story = {
+  name: "With context banner",
+  render: (args) => <ContextBannerDemo args={args} />,
+};
+
+/** Framed context chip above the prompt */
+export const WithContextChip: Story = {
+  name: "With context chip",
+  render: (args) => (
+    <StackedToolsDemo
+      args={args}
+      header={
+        <PromptInputHeader
+          variant="chip"
+          icon={<Square className="size-3.5" />}
+          showDismiss={false}
+        >
+          Text
+        </PromptInputHeader>
+      }
+    />
+  ),
+};
+
+/** Compact edit / describe mode (same layout, different placeholder) */
+export const EditMode: Story = {
+  name: "Edit mode",
+  render: (args) => (
+    <CompactDemo
+      args={args}
+      placeholder="Describe what you want to add, remove or re-edit"
+    />
+  ),
+};
+
+// ============================================
+// State stories
+// ============================================
+
+/** Pre-filled stacked input ready to submit */
 export const WithPrefilledValue: Story = {
-  render: (args) => <CopilotPromptDemo {...args} />,
+  render: (args) => <StackedToolsDemo args={args} />,
   args: {
-    value: PREFILLED_QUESTION,
+    value: "Why did ACOS increase for the Amazon Wireless Earbuds campaign this week?",
   },
 };
 
-/** Loading state: Enter no longer submits and the send button becomes a stop button. */
+/** Loading: Enter does not submit; show stop affordance in the send button */
 export const Loading: Story = {
-  render: (args) => <CopilotPromptDemo {...args} />,
+  render: (args) => <CompactDemo args={args} />,
   args: {
-    value: PREFILLED_QUESTION,
+    value: "Summarize last week's ACOS drivers",
     isLoading: true,
   },
 };
 
-/** Disabled input, e.g. while Copilot access is being provisioned. */
+/** Disabled input */
 export const Disabled: Story = {
-  render: (args) => <CopilotPromptDemo {...args} />,
+  render: (args) => <CompactDemo args={args} />,
   args: {
     disabled: true,
-  },
-};
-
-/** A smaller maxHeight causes the textarea to scroll sooner on long messages. */
-export const CustomMaxHeight: Story = {
-  render: (args) => <CopilotPromptDemo {...args} />,
-  args: {
-    maxHeight: 80,
-    value:
-      "Compare Amazon and Walmart ROAS for the last 30 days, broken out by campaign type, and flag any campaigns where ACOS is trending above target.",
   },
 };
