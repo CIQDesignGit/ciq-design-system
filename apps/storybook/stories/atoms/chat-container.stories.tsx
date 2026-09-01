@@ -37,8 +37,10 @@ function MockMessage({ role, text }: { readonly role: string; readonly text: str
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
       <div
-        className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${
-          isUser ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"
+        className={`max-w-[80%] rounded-2xl px-3 py-2 type-body text-fg-primary ${
+          isUser
+            ? "rounded-br-[2px] bg-brand-50"
+            : "rounded-bl-[2px] bg-surface-muted"
         }`}
       >
         {text}

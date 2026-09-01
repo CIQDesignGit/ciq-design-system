@@ -5,7 +5,6 @@ import {
   Message,
   MessageAction,
   MessageActions,
-  MessageAvatar,
   MessageContent,
 } from "@/atoms/message";
 
@@ -23,6 +22,12 @@ const ASSISTANT_MARKDOWN_REPLY = `**ACOS on B08XYZ1234 rose from 14.2% to 22.8%*
 
 Recommended action: review the pricing rule for this ASIN in Amazon Copilot.`;
 
+const DEFAULT_AGENT_AVATAR = {
+  src: "",
+  alt: "CommerceIQ Copilot",
+  fallback: "AI",
+} as const;
+
 // ============================================
 // Story Configuration
 // ============================================
@@ -35,20 +40,28 @@ const meta: Meta<typeof Message> = {
     docs: {
       description: {
         component: `
-The root container for a single chat message row. Composed with
-\`MessageAvatar\`, \`MessageContent\` (plain text or markdown), and
-\`MessageActions\` / \`MessageAction\` (tooltip-wrapped action buttons like
-copy or thumbs up/down) to build the CommerceIQ Copilot chat experience.
+The root container for a single chat message row. Compose with
+\`MessageContent\` (plain text or markdown) and optional
+\`MessageActions\` / \`MessageAction\`.
+
+Use \`showAvatar\` on \`Message\` to turn the agent avatar on or off
+(pass \`avatar\` props to customize src / fallback). You can still compose
+\`MessageAvatar\` as a child if you prefer.
+
+\`MessageContent\` variants: \`user\`, \`agent\` (grey bubble), \`agent-plain\` (no background).
         `,
       },
     },
   },
   tags: ["autodocs"],
   argTypes: {
-    // ReactNode - composed per-story from MessageAvatar / MessageContent / MessageActions
     children: { control: false },
-    // Styling escape hatch
     className: { control: false },
+    showAvatar: {
+      control: "boolean",
+      description: "Show or hide the agent avatar beside the bubble.",
+    },
+    avatar: { control: false },
   },
 };
 
@@ -63,19 +76,47 @@ type Story = StoryObj<typeof Message>;
 export const Default: Story = {
   render: () => (
     <Message className="justify-end">
-      <MessageContent className="bg-primary text-primary-foreground">
-        {USER_QUESTION}
-      </MessageContent>
+      <MessageContent variant="user">{USER_QUESTION}</MessageContent>
     </Message>
   ),
 };
 
-/** An assistant reply rendered as markdown, with an avatar fallback. */
-export const AssistantWithMarkdown: Story = {
-  render: () => (
-    <Message>
-      <MessageAvatar src="" alt="CommerceIQ Copilot" fallback="AI" />
+/** Agent reply with avatar (showAvatar). */
+export const AgentWithAvatar: Story = {
+  args: {
+    showAvatar: true,
+    avatar: DEFAULT_AGENT_AVATAR,
+  },
+  render: (args) => (
+    <Message {...args}>
       <MessageContent markdown>{ASSISTANT_MARKDOWN_REPLY}</MessageContent>
+    </Message>
+  ),
+};
+
+/** Agent reply without avatar — bubble only. */
+export const AgentWithoutAvatar: Story = {
+  args: {
+    showAvatar: false,
+  },
+  render: (args) => (
+    <Message {...args}>
+      <MessageContent markdown>{ASSISTANT_MARKDOWN_REPLY}</MessageContent>
+    </Message>
+  ),
+};
+
+/** Agent reply with no bubble background — text only. */
+export const AgentPlain: Story = {
+  args: {
+    showAvatar: true,
+    avatar: DEFAULT_AGENT_AVATAR,
+  },
+  render: (args) => (
+    <Message {...args}>
+      <MessageContent variant="agent-plain" markdown>
+        {ASSISTANT_MARKDOWN_REPLY}
+      </MessageContent>
     </Message>
   ),
 };
@@ -84,8 +125,7 @@ export const AssistantWithMarkdown: Story = {
 export const WithActions: Story = {
   render: () => (
     <div className="flex flex-col gap-2">
-      <Message>
-        <MessageAvatar src="" alt="CommerceIQ Copilot" fallback="AI" />
+      <Message showAvatar avatar={DEFAULT_AGENT_AVATAR}>
         <MessageContent markdown>{ASSISTANT_MARKDOWN_REPLY}</MessageContent>
       </Message>
       <MessageActions className="pl-11">
@@ -112,12 +152,14 @@ export const WithActions: Story = {
 /** Avatar with a real image instead of a text fallback. */
 export const WithAvatarImage: Story = {
   render: () => (
-    <Message>
-      <MessageAvatar
-        src="https://i.pravatar.cc/64?img=12"
-        alt="Priya Sharma"
-        fallback="PS"
-      />
+    <Message
+      showAvatar
+      avatar={{
+        src: "https://i.pravatar.cc/64?img=12",
+        alt: "Priya Sharma",
+        fallback: "PS",
+      }}
+    >
       <MessageContent>{"Can you break that down by marketplace?"}</MessageContent>
     </Message>
   ),
@@ -128,12 +170,12 @@ export const Conversation: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       <Message className="justify-end">
-        <MessageContent className="bg-primary text-primary-foreground">
-          {USER_QUESTION}
-        </MessageContent>
+        <MessageContent variant="user">{USER_QUESTION}</MessageContent>
+      </Message>
+      <Message showAvatar avatar={DEFAULT_AGENT_AVATAR}>
+        <MessageContent markdown>{ASSISTANT_MARKDOWN_REPLY}</MessageContent>
       </Message>
       <Message>
-        <MessageAvatar src="" alt="CommerceIQ Copilot" fallback="AI" />
         <MessageContent markdown>{ASSISTANT_MARKDOWN_REPLY}</MessageContent>
       </Message>
     </div>
